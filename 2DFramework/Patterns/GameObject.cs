@@ -32,12 +32,13 @@ namespace GameFramework {
         public List<GameObject> Children = null;
         public GameObject Parent = null;
         public List<Component> Components = null;
-        public void Initialize(string name, Point pos, bool enabled, GameObject parent) {
+        public GameObject(string name, Point pos, bool enabled, GameObject parent) {
             Name = name;
             LocalPosition = pos;
             Enabled = enabled;
             Parent = parent;
         }
+
         public void Update(float dTime) {
             if (Enabled) {
                 //do self update stuff here
@@ -59,14 +60,7 @@ namespace GameFramework {
                 }
             }
         }
-        public void Shutdown() {
-            Children = null;
-            Components = null;
-            Name = null;
-            LocalPosition = new Point(0, 0);
-            Enabled = false;
-            Parent = null;
-        }
+
         public void OnEnable() {
 
         }
