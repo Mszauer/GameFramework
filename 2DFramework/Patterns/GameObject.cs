@@ -42,17 +42,32 @@ namespace GameFramework {
         public void Update(float dTime) {
             if (Enabled) {
                 //do self update stuff here
+                if (Components != null) {
+                    for (int i = Components.Count - 1; i >= 0; i--) {
+                        if (Components[i].Active) {
+                            Components[i].DoUpdate(dTime);
+                        }
+                    }
+                }
                 if (Children != null) {
                     for (int i = Children.Count - 1; i >= 0; i--) {
                         Children[i].Update(dTime);
                     }
                 }
+                
             }
             
         }
         public void Render() {
             if (Enabled) {
                 //do self render stuff here
+                if (Components != null) {
+                    for (int i = Components.Count - 1; i >= 0; i--) {
+                        if (Components[i].Active) {
+                            Components[i].DoRender();
+                        }
+                    }
+                }
                 if (Children != null) {
                     for (int i = Children.Count - 1; i >= 0; i--) {
                         Children[i].Render();

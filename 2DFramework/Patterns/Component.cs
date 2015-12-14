@@ -8,27 +8,53 @@ namespace GameFramework {
     class Component {
         GameObject gameObject = null;
         public string Name = null;
-        public bool Active = false;
-        public virtual void Initialize(string name, GameObject game) {
+        private bool _active = true;
+        public bool Active {
+            get {
+                return _active;
+            }
+            set {
+                if (value != _active) {
+                    if (value) {
+                        OnActivate();
+                    }
+                    else {
+                        OnDeactivate();
+                    }
+                }
+                _active = value;
+            }
+        }
+        public Component(string name, GameObject game) {
             Name = name;
             gameObject = game;
         }
         public virtual void OnActivate() {
 
         }
+
         public virtual void OnDeactivate() {
 
         }
-        public virtual void Update(float dTime) {
+
+        public virtual void OnUpdate(float dTime) {
 
         }
-        public virtual void Render() {
+
+        public virtual void OnRender() {
 
         }
-        public virtual void Shutdown() {
-            Name = null;
-            gameObject = null;
-            Active = false;
+
+        public void DoUpdate(float dTime) {
+            if (Active) {
+                OnUpdate(dTime);
+            }
+        }
+
+        public void DoRender() {
+            if (Active) {
+                OnRender();
+            }
         }
     }
 }
