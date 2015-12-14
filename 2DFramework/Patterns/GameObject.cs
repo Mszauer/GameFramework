@@ -32,10 +32,9 @@ namespace GameFramework {
         public List<GameObject> Children = null;
         public GameObject Parent = null;
         public List<Component> Components = null;
-        public GameObject(string name, Point pos, bool enabled, GameObject parent) {
+        public GameObject(string name, GameObject parent = null) {
             Name = name;
-            LocalPosition = pos;
-            Enabled = enabled;
+            Enabled = true;
             Parent = parent;
         }
 
