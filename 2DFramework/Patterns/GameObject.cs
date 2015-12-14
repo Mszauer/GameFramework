@@ -77,6 +77,7 @@ namespace GameFramework {
             Console.WriteLine("Children Length: " + Children.Count);
 #endif
         }
+
         public void RemoveChild(GameObject child) {
             for (int i = Children.Count - 1; i >= 0; i--) {
                 if (Children[i] == child) {
@@ -89,7 +90,22 @@ namespace GameFramework {
             }
         }
 
-        public GameObject FindChild(string child) {
+        public void RemoveChild(string child, bool recursive = false) {
+            for (int i = Children.Count - 1; i >= 0; i--) {
+                if (Children[i].Name == child) {
+                    Children.RemoveAt(i);
+#if CHILDDEBUG
+                    Console.WriteLine("Removed child:" + child.ToString() + " at: " + i);
+                    Console.WriteLine("Children Length: " + Children.Count);
+#endif
+                }
+                else if (recursive) {
+                    Children[i].RemoveChild(child, true);
+                }
+            }
+        }
+
+        public GameObject FindChild(string child, bool recursive = true) {
             if (Children == null) {
 #if CHILDDEBUG
                 Console.WriteLine("Child not found");
@@ -103,7 +119,7 @@ namespace GameFramework {
 #endif
                     return Children[i];
                 }
-                else {
+                else if (recursive) {
                     Children[i].FindChild(child);
                 }
             }
@@ -116,6 +132,12 @@ namespace GameFramework {
             if (Components == null) {
                 Components = new List<Component>();
             }
+            for (int i = 0; i < Components.Count; i++) {
+#if COMPONENTDEBUG
+                Console.WriteLine("Component already exists, was not added");
+#endif
+                return;
+            }
             Components.Add(component);
 #if COMPONENTDEBUG
             Console.WriteLine("Component added: " + component);
@@ -125,6 +147,17 @@ namespace GameFramework {
         public void RemoveComponent(Component component) {
             for (int i = Components.Count - 1; i >= 0; i--) {
                 if (Components[i] == component) {
+                    Components.RemoveAt(i);
+#if COMPONENTDEBUG
+                    Console.WriteLine("Component removed: " + component);
+                    Console.WriteLine("Component Length: " + Components.Count);
+#endif
+                }
+            }
+        }
+        public void RemoveComponent(string component) {
+            for (int i = Components.Count - 1; i >= 0; i--) {
+                if (Components[i].Name == component) {
                     Components.RemoveAt(i);
 #if COMPONENTDEBUG
                     Console.WriteLine("Component removed: " + component);
